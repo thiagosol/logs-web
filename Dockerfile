@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y supervisor && rm -rf /var/lib/apt/lists
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
-RUN mkdir -p /var/log/supervisor
+RUN mkdir -p /var/log/logs-web && chmod -R 777 /var/log/logs-web
 
 EXPOSE 28778 28777
 
