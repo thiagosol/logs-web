@@ -1,15 +1,35 @@
-version: '3'
+version: '3.8'
 
 services:
-  logs-web:
+  loki:
+    image: grafana/loki:2.9.1
+    container_name: loki
+    ports: []
+    volumes:
+      - ./loki-config.yml:/etc/loki/local-config.yml
+    command: -config.file=/etc/loki/local-config.yml
+    networks:
+      - logging
+
+  promtail:
+    image: grafana/promtail:2.9.1
+    container_name: promtail
+    volumes:
+      - /opt/auto-deploy/logs:/var/log
+      - ./promtail-config.yml:/etc/promtail/config.yml
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - logging
+
+  grafana:
     image: logs-web
+    container_name: grafana
     pull_policy: never
     restart: always
-    container_name: logs-web
-    ports:
-      - "9000:28777"
     volumes:
-      - /opt/auto-deploy/logs:/var/log:ro
+      - grafana-data:/var/lib/grafana
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.logs-web.entrypoints=http"
@@ -18,16 +38,23 @@ services:
       - "traefik.http.routers.logs-web-secure.rule=Host(`logs.thiagosol.com`)"
       - "traefik.http.routers.logs-web-secure.tls=true"
       - "traefik.http.routers.logs-web-secure.service=logs-web-secure"
-      - "traefik.http.services.logs-web-secure.loadbalancer.server.port=28778"
+      - "traefik.http.services.logs-web-secure.loadbalancer.server.port=3000"
       - "traefik.docker.network=proxy"
-    environment:
-      - NODE_ENV=production
+    depends_on:
+      - loki
     deploy:
       resources:
         limits:
           memory: 100M
+    networks:
+      - logging 
+      - external-sol-apis
+
+volumes:
+  grafana-data:
 
 networks:
-  default:
-    external:
-      name: external-sol-apis
+  logging:
+    driver: bridge
+  external-sol-apis:
+    external: true
