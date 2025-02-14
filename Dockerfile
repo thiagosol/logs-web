@@ -2,8 +2,7 @@ FROM node:14
 
 WORKDIR /app
 
-RUN npm install -g log.io --unsafe-perm=true --allow-root
-RUN git clone https://github.com/NarrativeScience/log.io.git /log.io-source \
+RUN git clone https://github.com/JanPawlowski/log.io.git /log.io-source \
     && cd /log.io-source \
     && npm install \
     && npm link
