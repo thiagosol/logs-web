@@ -39,7 +39,7 @@ services:
       - "traefik.http.routers.logs-web-secure.tls=true"
       - "traefik.http.routers.logs-web-secure.service=logs-web-secure"
       - "traefik.http.services.logs-web-secure.loadbalancer.server.port=3000"
-      - "traefik.docker.network=proxy"
+      - "traefik.docker.network=external-sol-apis"
     depends_on:
       - loki
     deploy:
