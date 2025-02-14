@@ -2,10 +2,7 @@ FROM node:14
 
 WORKDIR /app
 
-RUN git clone https://github.com/JanPawlowski/log.io.git /log.io-source \
-    && cd /log.io-source \
-    && npm install \
-    && npm link
+RUN npm install -g @dasilvacontin/log.io --unsafe-perm=true --allow-root
 
 RUN node -v && npm -v && npm list -g --depth=0
 
