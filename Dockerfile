@@ -1,4 +1,8 @@
-FROM mephux/log.io
+FROM node:14
+
+WORKDIR /app
+
+RUN npm install -g log.io --unsafe-perm=true --allow-root
 
 ARG LOG_USER
 ARG LOG_PASS
