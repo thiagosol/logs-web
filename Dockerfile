@@ -2,11 +2,15 @@ FROM node:14
 
 WORKDIR /app
 
-RUN npm install -g log.io log.io-harvester --unsafe-perm=true --allow-root
+RUN npm install -g log.io --unsafe-perm=true --allow-root
+RUN git clone https://github.com/NarrativeScience/log.io.git /log.io-source \
+    && cd /log.io-source \
+    && npm install \
+    && npm link
 
 RUN node -v && npm -v && npm list -g --depth=0
 
-RUN which log.io-server && which log.io-harvester
+RUN which log.io-server && which log.io-harvester || echo "log.io-harvester não encontrado!"
 
 RUN mkdir -p /var/log/logs-web && chmod -R 777 /var/log/logs-web
 
