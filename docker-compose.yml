@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  logs-web:
+    image: logs-web
+    pull_policy: never
+    restart: always
+    container_name: logs-web
+    ports:
+      - "9000:28777"
+    volumes:
+      - /opt/auto-deploy/logs:/var/log:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.logs-web.entrypoints=http"
+      - "traefik.http.routers.logs-web.rule=Host(`logs.thiagosol.com`)"
+      - "traefik.http.routers.logs-web-secure.entrypoints=https"
+      - "traefik.http.routers.logs-web-secure.rule=Host(`logs.thiagosol.com`)"
+      - "traefik.http.routers.logs-web-secure.tls=true"
+      - "traefik.http.routers.logs-web-secure.service=logs-web-secure"
+      - "traefik.http.services.logs-web-secure.loadbalancer.server.port=28778"
+      - "traefik.docker.network=proxy"
+    environment:
+      - NODE_ENV=production
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+
+networks:
+  default:
+    external:
+      name: external-sol-apis
