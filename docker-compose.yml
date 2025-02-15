@@ -70,25 +70,24 @@ services:
           memory: 50M 
     
   cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1 # Altere para a versão desejada
     container_name: cadvisor
-    image: gcr.io/cadvisor/cadvisor:latest
-    networks:
-      - logging-network
+    restart: unless-stopped
+    privileged: true
     ports:
       - "8080:8080"
-    volumes: 
-      - "/:/rootfs"
-      - "/var/run:/var/run"
-      - "/sys:/sys"
-      - "/var/lib/docker/:/var/lib/docker"
-      - "/dev/disk/:/dev/disk"
-    privileged: true
-    devices: 
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:ro"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    devices:
       - "/dev/kmsg"
     deploy:
       resources:
         limits:
-          memory: 25M 
+          memory: 100M 
 
   node-exporter:
     image: prom/node-exporter:latest
