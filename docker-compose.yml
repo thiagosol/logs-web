@@ -53,6 +53,8 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
     networks:
       - logging-network
+    ports:
+      - "9001:9090"
     logging:
       driver: loki
       options:
@@ -66,24 +68,23 @@ services:
       resources:
         limits:
           memory: 50M 
-
+    
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
-    restart: unless-stopped
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    devices:
-      - /dev/kmsg
-    command:
-      - "--disable_metrics=percpu,sched,tcp,udp,disk"
-      - "--disable_root_cgroup_stats=true"
+    image: gcr.io/cadvisor/cadvisor:latest
     networks:
       - logging-network
+    ports:
+      - "8080:8080"
+    volumes: 
+      - "/:/rootfs"
+      - "/var/run:/var/run"
+      - "/sys:/sys"
+      - "/var/lib/docker/:/var/lib/docker"
+      - "/dev/disk/:/dev/disk"
+    privileged: true
+    devices: 
+      - "/dev/kmsg"
     deploy:
       resources:
         limits:
