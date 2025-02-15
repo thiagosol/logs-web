@@ -30,6 +30,7 @@ ingester:
     ring:
       kvstore:
         store: inmemory
+      replication_factor: 1
 
 limits_config:
   reject_old_samples: true
