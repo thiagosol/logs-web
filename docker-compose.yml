@@ -4,11 +4,14 @@ services:
   loki:
     image: grafana/loki:2.3.0
     container_name: loki
+    hostname: loki
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
     command: -config.file=/etc/loki/local-config.yml
     networks:
-      - logging-network
+      logging-network:
+        aliases:
+          - loki
     deploy:
       resources:
         limits:
