@@ -8,6 +8,7 @@ services:
     hostname: loki
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
+      - loki-data:/loki
     command: -config.file=/etc/loki/local-config.yml
     networks:
       logging-network:
@@ -49,10 +50,9 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     networks:
       - logging-network
-    ports:
-      - "9001:9090"
     restart: unless-stopped
     privileged: true
     depends_on:
@@ -70,8 +70,6 @@ services:
     networks:
       - logging-network
     privileged: true
-    ports:
-      - "8080:8080"
     volumes:
       - "/:/rootfs:ro"
       - "/var/run:/var/run:ro"
@@ -133,6 +131,8 @@ services:
 
 volumes:
   grafana-data:
+  prometheus-data:
+  loki-data:
 
 networks:
   logging-network:
