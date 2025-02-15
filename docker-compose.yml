@@ -57,7 +57,6 @@ services:
     privileged: true
     depends_on:
       - cadvisor
-      - node-exporter
     deploy:
       resources:
         limits:
