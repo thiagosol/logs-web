@@ -61,8 +61,8 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M 
-    
+          memory: 75M 
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
@@ -81,18 +81,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M 
-
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    networks:
-      - logging-network
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 15M
+          memory: 75M 
 
   grafana:
     image: logs-web
