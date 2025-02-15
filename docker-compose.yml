@@ -31,6 +31,14 @@ services:
       - loki
     networks:
       - logging-network 
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-external-labels: "service=promtail,type=service"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        mode: "non-blocking"
     deploy:
       resources:
         limits:
@@ -58,6 +66,14 @@ services:
     networks:
       - logging-network
       - external-sol-apis
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-external-labels: "service=grafana,type=service"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        mode: "non-blocking"
     deploy:
       resources:
         limits:
