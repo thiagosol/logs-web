@@ -26,6 +26,10 @@ ingester:
     enabled: true
     dir: /tmp/loki/wal
   max_transfer_retries: 0
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
 
 limits_config:
   reject_old_samples: true
@@ -34,9 +38,6 @@ limits_config:
 compactor:
   working_directory: /tmp/loki/compactor
   shared_store: filesystem
-
-memberlist:
-  join_members: []
 
 ruler:
   storage:
