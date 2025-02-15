@@ -10,6 +10,10 @@ services:
     command: -config.file=/etc/loki/local-config.yml
     networks:
       - logging
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   promtail:
     image: grafana/promtail:2.9.1
@@ -23,6 +27,10 @@ services:
       - loki
     networks:
       - logging
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   grafana:
     image: logs-web
