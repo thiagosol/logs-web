@@ -73,6 +73,8 @@ services:
     image: gcr.io/cadvisor/cadvisor:v0.49.1 # Altere para a versão desejada
     container_name: cadvisor
     restart: unless-stopped
+    networks:
+      - logging-network
     privileged: true
     ports:
       - "8080:8080"
