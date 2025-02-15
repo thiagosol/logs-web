@@ -15,7 +15,8 @@ scrape_configs:
           - localhost
         labels:
           job: "logs"
-          filename: "{{.Path}}" 
+          __path__: "/var/log/**/*.log"
+          filename: [__filename] 
     relabel_configs:
       # Captura arquivos na raiz e define service = nome do arquivo e log = deploy
       - source_labels: [__filename]
