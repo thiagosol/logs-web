@@ -51,6 +51,10 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=5d"
     networks:
       - logging-network
     restart: unless-stopped
@@ -60,7 +64,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 75M 
+          memory: 100M 
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
@@ -80,7 +84,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 75M 
+          memory: 100M 
 
   grafana:
     image: logs-web
