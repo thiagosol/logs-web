@@ -16,8 +16,11 @@ scrape_configs:
         labels:
           job: "logs"
           __path__: "/var/log/**/*.log"
-          filename: [__filename] 
+
     relabel_configs:
+      - source_labels: [__filename]
+        target_label: filename
+
       # Captura arquivos na raiz e define service = nome do arquivo e log = deploy
       - source_labels: [__filename]
         regex: ".*/([^/]+)\\.log"
