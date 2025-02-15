@@ -55,22 +55,14 @@ services:
       - logging-network
     ports:
       - "9001:9090"
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
-        loki-external-labels: "service=prometheus,type=service"
-        loki-retries: "5"
-        loki-batch-size: "400"
-        mode: "non-blocking"
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 50M 
+          memory: 100M 
     
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1 # Altere para a versão desejada
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
     restart: unless-stopped
     networks:
