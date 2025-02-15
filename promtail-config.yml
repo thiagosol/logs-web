@@ -21,24 +21,22 @@ scrape_configs:
       - source_labels: [__filename]
         target_label: filename
 
-      # Captura arquivos na raiz e define service = nome do arquivo e log = deploy
       - source_labels: [__filename]
-        regex: ".*/([^/]+)\\.log$"
+        regex: "/var/log/([^/]+)\\.log$"
         replacement: "$1"
         target_label: service
 
       - source_labels: [__filename]
-        regex: ".*/([^/]+)\\.log$"
+        regex: "/var/log/([^/]+)\\.log$"
         replacement: "deploy"
         target_label: log
 
-      # Captura arquivos dentro de pastas e define service = nome da pasta e log = nome do arquivo
       - source_labels: [__filename]
-        regex: ".*/([^/]+)/([^/]+)\\.log$"
+        regex: "/var/log/([^/]+)/([^/]+)\\.log$"
         replacement: "$1"
         target_label: service
 
       - source_labels: [__filename]
-        regex: ".*/([^/]+)/([^/]+)\\.log$"
+        regex: "/var/log/([^/]+)/([^/]+)\\.log$"
         replacement: "$2"
         target_label: log
