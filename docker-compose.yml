@@ -80,7 +80,6 @@ services:
     devices:
       - /dev/kmsg
     command:
-      - "--storage_driver=statsd"
       - "--disable_metrics=percpu,sched,tcp,udp,disk"
       - "--disable_root_cgroup_stats=true"
     networks:
