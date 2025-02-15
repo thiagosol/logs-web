@@ -4,7 +4,7 @@ services:
   loki:
     image: grafana/loki:2.3.0
     container_name: loki
-    restart: always
+    restart: unless-stopped
     hostname: loki
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
@@ -22,7 +22,7 @@ services:
   promtail:
     image: grafana/promtail:2.9.1
     container_name: promtail
-    restart: always
+    restart: unless-stopped
     volumes:
       - /opt/auto-deploy/logs:/var/log
       - ./promtail-config.yml:/etc/promtail/config.yml
@@ -43,12 +43,55 @@ services:
       resources:
         limits:
           memory: 50M
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - logging-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 50M
+  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - logging-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 25M 
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    networks:
+      - logging-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 15M
 
   grafana:
     image: logs-web
     container_name: grafana
     pull_policy: never
-    restart: always
+    restart: unless-stopped
     volumes:
       - grafana-data:/var/lib/grafana
     labels:
