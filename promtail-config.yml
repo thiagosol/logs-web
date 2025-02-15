@@ -16,27 +16,3 @@ scrape_configs:
         labels:
           job: "logs"
           __path__: "/var/log/**/*.log"
-
-    relabel_configs:
-      - source_labels: [__filename]
-        target_label: filename
-
-      - source_labels: [__filename]
-        regex: "/var/log/([^/]+)\\.log$"
-        replacement: "$1"
-        target_label: service
-
-      - source_labels: [__filename]
-        regex: "/var/log/([^/]+)\\.log$"
-        replacement: "deploy"
-        target_label: log
-
-      - source_labels: [__filename]
-        regex: "/var/log/([^/]+)/([^/]+)\\.log$"
-        replacement: "$1"
-        target_label: service
-
-      - source_labels: [__filename]
-        regex: "/var/log/([^/]+)/([^/]+)\\.log$"
-        replacement: "$2"
-        target_label: log
