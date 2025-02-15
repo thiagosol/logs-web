@@ -4,6 +4,7 @@ services:
   loki:
     image: grafana/loki:2.3.0
     container_name: loki
+    restart: always
     hostname: loki
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
@@ -20,6 +21,7 @@ services:
   promtail:
     image: grafana/promtail:2.9.1
     container_name: promtail
+    restart: always
     volumes:
       - /opt/auto-deploy/logs:/var/log
       - ./promtail-config.yml:/etc/promtail/config.yml
@@ -31,7 +33,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 50M
 
   grafana:
     image: logs-web
