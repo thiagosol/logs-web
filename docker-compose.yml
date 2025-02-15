@@ -9,8 +9,7 @@ services:
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
       - loki-data:/loki
-    command: 
-      - "-config.file=/etc/loki/local-config.yml"
+    command: -config.file=/etc/loki/local-config.yml
     networks:
       logging-network:
         aliases:
@@ -52,10 +51,6 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention.time=5d"
     networks:
       - logging-network
     restart: unless-stopped
