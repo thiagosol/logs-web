@@ -45,7 +45,9 @@ scrape_configs:
             container_image: attrs.image
 
       - labels:
-          service: container_id  
+          service: container_name
+          container_name:
+          container_id:  
 
       - match:
           selector: '{job="docker"}'
