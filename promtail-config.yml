@@ -14,5 +14,14 @@ scrape_configs:
       - targets:
           - localhost
         labels:
-          job: "logs"
-          __path__: "/var/log/**/*.log"
+          job: "deploy"         
+          service: "deploy-api"  
+          __path__: "/var/log/*.log"
+
+    pipeline_stages:
+      - regex:
+          source: filename
+          expression: "(?P<type>.+)\\.log"
+
+      - labels:
+          type:
