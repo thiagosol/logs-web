@@ -4,12 +4,11 @@ services:
   loki:
     image: grafana/loki:2.3.0
     container_name: loki
-    ports: []
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
     command: -config.file=/etc/loki/local-config.yml
     networks:
-      - logging
+      - logging-network
     deploy:
       resources:
         limits:
@@ -25,7 +24,7 @@ services:
     depends_on:
       - loki
     networks:
-      - logging
+      - logging-network 
     deploy:
       resources:
         limits:
@@ -50,19 +49,19 @@ services:
       - "traefik.docker.network=external-sol-apis"
     depends_on:
       - loki
+    networks:
+      - logging-network
+      - external-sol-apis
     deploy:
       resources:
         limits:
           memory: 100M
-    networks:
-      - logging 
-      - external-sol-apis
 
 volumes:
   grafana-data:
 
 networks:
-  logging:
-    driver: bridge
+  logging-network:
+    external: true
   external-sol-apis:
     external: true
