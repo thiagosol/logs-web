@@ -1,11 +1,6 @@
 global:
   scrape_interval: 120s
 
-storage:
-  tsdb:
-    path: /prometheus
-    retention.time: 12h
-
 scrape_configs:
   - job_name: 'cadvisor'
     static_configs:
