@@ -54,7 +54,6 @@ services:
     command:
       - "--storage.tsdb.path=/prometheus"
       - "--storage.tsdb.retention.time=5d"
-      - "--storage.tsdb.allow-overlapping-blocks"
       - "--storage.tsdb.min-block-duration=2h"
       - "--storage.tsdb.max-block-duration=2h"
     networks:
