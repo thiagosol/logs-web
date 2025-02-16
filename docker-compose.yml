@@ -51,10 +51,11 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
-    command:
+    args:
       - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--storage.tsdb.retention.time=5d"
+      - "--storage.tsdb.allow-overlapping-blocks"
+      - "--storage.tsdb.min-block-duration=2h"
+      - "--storage.tsdb.max-block-duration=2h"
     networks:
       - logging-network
     restart: unless-stopped
@@ -64,12 +65,16 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M 
+          memory: 150M 
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: cadvisor
     restart: unless-stopped
+    command:
+      - "--housekeeping_interval=30s"
+      - "--docker_only=true"
+      - "--storage_duration=30s"
     networks:
       - logging-network
     privileged: true
@@ -78,7 +83,6 @@ services:
       - "/var/run:/var/run:ro"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
-      - "/dev/disk/:/dev/disk:ro"
     devices:
       - "/dev/kmsg"
     deploy:
