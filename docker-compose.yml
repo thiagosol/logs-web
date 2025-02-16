@@ -51,7 +51,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
-    args:
+    command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.allow-overlapping-blocks"
       - "--storage.tsdb.min-block-duration=2h"
