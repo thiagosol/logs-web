@@ -95,8 +95,9 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     restart: unless-stopped
-    network_mode: "host" 
     pid: "host" 
+    networks:
+      - logging-network
     command:
       - "--path.rootfs=/host"
     volumes:
