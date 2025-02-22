@@ -97,8 +97,6 @@ services:
     restart: unless-stopped
     network_mode: "host" 
     pid: "host" 
-    networks:
-      - logging-network
     command:
       - "--path.rootfs=/host"
     volumes:
