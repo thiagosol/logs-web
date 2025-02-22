@@ -91,6 +91,23 @@ services:
         limits:
           memory: 100M 
 
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: "host" 
+    pid: "host" 
+    networks:
+      - logging-network
+    command:
+      - "--path.rootfs=/host"
+    volumes:
+      - "/:/host:ro,rslave"
+    deploy:
+      resources:
+        limits:
+          memory: 50M
+
   grafana:
     image: logs-web
     container_name: grafana
