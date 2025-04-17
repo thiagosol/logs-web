@@ -116,14 +116,11 @@ services:
       - grafana-data:/var/lib/grafana
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.logs-web.entrypoints=http"
       - "traefik.http.routers.logs-web.rule=Host(`log.thiagosol.com`)"
-      - "traefik.http.routers.logs-web-secure.entrypoints=https"
-      - "traefik.http.routers.logs-web-secure.rule=Host(`log.thiagosol.com`)"
-      - "traefik.http.routers.logs-web-secure.tls=true"
-      - "traefik.http.routers.logs-web-secure.service=logs-web-secure"
-      - "traefik.http.services.logs-web-secure.loadbalancer.server.port=3000"
-      - "traefik.docker.network=external-sol-apis"
+      - "traefik.http.routers.logs-web.entrypoints=https"
+      - "traefik.http.routers.logs-web.tls=true"
+      - "traefik.http.services.logs-web.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy"
     depends_on:
       - loki
     networks:
