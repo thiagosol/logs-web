@@ -18,7 +18,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 200M
 
   promtail:
     image: grafana/promtail:2.9.1
@@ -43,7 +43,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 50M
+          memory: 200M
   
   prometheus:
     image: prom/prometheus:latest
@@ -66,7 +66,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 150M 
+          memory: 4p0M 
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
@@ -89,7 +89,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M 
+          memory: 400M 
 
   node-exporter:
     image: prom/node-exporter:latest
@@ -105,7 +105,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 50M
+          memory: 250M
 
   grafana:
     image: logs-web
@@ -137,7 +137,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 200M
 
 volumes:
   grafana-data:
