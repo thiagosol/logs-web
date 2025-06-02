@@ -120,7 +120,7 @@ services:
       - "traefik.http.routers.logs-web.entrypoints=https"
       - "traefik.http.routers.logs-web.tls=true"
       - "traefik.http.services.logs-web.loadbalancer.server.port=3000"
-      - "traefik.docker.network=proxy"
+      - "traefik.docker.network=external-sol-apis"
     depends_on:
       - loki
     networks:
@@ -137,7 +137,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 400M
 
 volumes:
   grafana-data:
